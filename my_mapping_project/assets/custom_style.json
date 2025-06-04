@@ -1,0 +1,36 @@
+{
+  "version": 8,
+  "sources": {
+    "landmarks_output": {
+      "type": "vector",
+      "tiles": ["mbtiles://landmarks_output"]
+    },
+    "output_polygons": {
+      "type": "vector",
+      "tiles": ["mbtiles://output_polygons"]
+    }
+  },
+  "layers": [
+    {
+      "id": "polygons",
+      "type": "fill",
+      "source": "output_polygons",
+      "source-layer": "output_polygons",
+      "paint": {
+        "fill-color": "#33AA33",
+        "fill-opacity": 0.33,
+        "fill-outline-color": "#008000"
+      }
+    },
+    {
+      "id": "landmarks",
+      "type": "circle",
+      "source": "landmarks_output",
+      "source-layer": "landmarks_output",
+      "paint": {
+        "circle-radius": 6,
+        "circle-color": "#0000FF"
+      }
+    }
+  ]
+}
