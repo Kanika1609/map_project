@@ -1,0 +1,14 @@
+{
+  "name": "landmarks_RNI",
+  "version": "1.1.0",
+  "description": "",
+  "attribution": "<a href=\"https://www.maptiler.com/engine/\">Rendered with MapTiler Engine</a>",
+  "type": "baselayer",
+  "format": "pbf",
+  "minzoom": "15",
+  "maxzoom": "22",
+  "scale": "1.000000",
+  "bounds": [77.18703550, 28.54278747, 77.18819022, 28.54379257],
+  "profile": "mercator",
+  "vector_layers": [{"id":"output","description":"","minzoom":15, "maxzoom":22,"fields":{"nonWalkableGrids":"String","flr_dist_matrix":"String","frConn":"String","clickedPoints":"String","polygonId":"String","motion":"String","daysOpen":"String","latitude":"String","doorType":"String","upwardSteps":"String","downwardSteps":"String","url":"String","assignedTo":"String","openingMechanism":"String","node":"String","basinClock":"String","blowDryer":"Number","cubicleClock":"String","handShower":"Number","liquidSoap":"Number","numCubicles":"String","numUrinals":"String","numWashbasin":"String","paperNapkins":"Number","protocol":"String","doorNumber":"String","sanitaryNapkins":"Number","shopNature":"String","soapbar":"Number","tapMug":"Number","timings":"String","doorMaterial":"String","startTime":"String","endTime":"String","toiletRolls":"Number","urinalClock":"String","washroomType":"String","name":"String","brailleAvailability":"String","audio":"String","wheelChairAccessibility":"String","nodeId":"String","arValue":"String","email":"String","contactNo":"String","stepHeight":"String","longitude":"String","polygonExist":"Number","polyId":"String","type":"String","subType":"String"}}]
+}

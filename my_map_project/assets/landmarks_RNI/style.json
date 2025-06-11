@@ -1,0 +1,33 @@
+{
+  "version": 8,
+  "sources": {
+    "landmarks": {
+      "type": "vector",
+      "tiles": ["http://10.194.27.121:8081/landmarks_RNI/{z}/{x}/{y}.pbf"],
+      "minzoom": 15,
+      "maxzoom": 22
+    },
+    "polylines": {
+      "type": "vector",
+      "tiles": ["http://10.194.27.121:8081/Polyline_RNI/{z}/{x}/{y}.pbf"],
+      "minzoom": 14,
+      "maxzoom": 22
+    }
+  },
+  "layers": [
+    {
+      "id": "landmarks-layer",
+      "type": "fill",
+      "source": "landmarks",
+      "source-layer": "output",
+      "paint": { "fill-color": "#088", "fill-opacity": 0.6 }
+    },
+    {
+      "id": "polyline-layer",
+      "type": "line",
+      "source": "polylines",
+      "source-layer": "output_polygons",
+      "paint": { "line-color": "#f00", "line-width": 2 }
+    }
+  ]
+}
