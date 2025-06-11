@@ -670,3 +670,4 @@ class _VectorTileMapState extends State<VectorTileMap> {
   }
 }
 
+
