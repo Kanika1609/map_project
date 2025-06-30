@@ -405,7 +405,7 @@
 //   Future<void> _loadStyle() async {
 //     try {
 //       final style = await StyleReader(
-//         uri: 'http://172.18.32.1:8080/styles/aiims/style.json',
+//         uri: 'http://10.194.22.156:8080/styles/aiims/style.json',
 //         logger: Logger.console(),
 //       ).read();
 //
@@ -499,39 +499,39 @@
 //   TileProviders _getTileProviders() {
 //     return TileProviders({
 //       'combined_with_layers': NetworkVectorTileProvider(
-//         urlTemplate: 'http://172.18.32.1:8080/data/combined_with_layers/{z}/{x}/{y}.pbf',
+//         urlTemplate: 'http://10.194.22.156:8080/data/combined_with_layers/{z}/{x}/{y}.pbf',
 //         maximumZoom: 21,
 //       ),
 //       'floor_-1': NetworkVectorTileProvider(
-//         urlTemplate: 'http://172.18.32.1:8080/data/floor_-1/{z}/{x}/{y}.pbf',
+//         urlTemplate: 'http://10.194.22.156:8080/data/floor_-1/{z}/{x}/{y}.pbf',
 //         maximumZoom: 21,
 //       ),
 //       'floor_0': NetworkVectorTileProvider(
-//         urlTemplate: 'http://172.18.32.1:8080/data/floor_0/{z}/{x}/{y}.pbf',
+//         urlTemplate: 'http://10.194.22.156:8080/data/floor_0/{z}/{x}/{y}.pbf',
 //         maximumZoom: 21,
 //       ),
 //       'floor_1': NetworkVectorTileProvider(
-//         urlTemplate: 'http://172.18.32.1:8080/data/floor_1/{z}/{x}/{y}.pbf',
+//         urlTemplate: 'http://10.194.22.156:8080/data/floor_1/{z}/{x}/{y}.pbf',
 //         maximumZoom: 21,
 //       ),
 //       'floor_2': NetworkVectorTileProvider(
-//         urlTemplate: 'http://172.18.32.1:8080/data/floor_2/{z}/{x}/{y}.pbf',
+//         urlTemplate: 'http://10.194.22.156:8080/data/floor_2/{z}/{x}/{y}.pbf',
 //         maximumZoom: 21,
 //       ),
 //       'floor_3': NetworkVectorTileProvider(
-//         urlTemplate: 'http://172.18.32.1:8080/data/floor_3/{z}/{x}/{y}.pbf',
+//         urlTemplate: 'http://10.194.22.156:8080/data/floor_3/{z}/{x}/{y}.pbf',
 //         maximumZoom: 21,
 //       ),
 //       'floor_4': NetworkVectorTileProvider(
-//         urlTemplate: 'http://172.18.32.1:8080/data/floor_4/{z}/{x}/{y}.pbf',
+//         urlTemplate: 'http://10.194.22.156:8080/data/floor_4/{z}/{x}/{y}.pbf',
 //         maximumZoom: 21,
 //       ),
 //       'floor_5': NetworkVectorTileProvider(
-//         urlTemplate: 'http://172.18.32.1:8080/data/floor_5/{z}/{x}/{y}.pbf',
+//         urlTemplate: 'http://10.194.22.156:8080/data/floor_5/{z}/{x}/{y}.pbf',
 //         maximumZoom: 21,
 //       ),
 //       'floor_6': NetworkVectorTileProvider(
-//         urlTemplate: 'http://172.18.32.1:8080/data/floor_6/{z}/{x}/{y}.pbf',
+//         urlTemplate: 'http://10.194.22.156:8080/data/floor_6/{z}/{x}/{y}.pbf',
 //         maximumZoom: 21,
 //       ),
 //     });
@@ -1024,6 +1024,7 @@
 //   }
 // }
 
+
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart' hide Theme;
@@ -1066,11 +1067,14 @@ class _MarkerData {
   int get hashCode => point.hashCode ^ properties.toString().hashCode;
 }
 
+
 class _PolygonData {
   final List<LatLng> points;
   final Map<String, dynamic> properties;
   _PolygonData({required this.points, required this.properties});
 }
+
+
 
 class VectorTileMap extends StatefulWidget {
   const VectorTileMap({super.key});
@@ -1116,10 +1120,42 @@ class _VectorTileMapState extends State<VectorTileMap> {
     return null;
   }
 
+  void _clearPathResults() {
+    setState(() {
+      _shortestPath.clear();
+      _shortestPathNodeKeys.clear();
+      _shortestDistance = null;
+      _estimatedTime = null;
+      _landmarksOnPath = 0;
+      _pathLandmarks = [];
+    });
+  }
+
+  void _showNoPathDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('No Path Found'),
+          content: const Text(
+              'No valid path could be found for your selected points.\n\n'
+                  'Please make a U-turn or select a different route.'
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _loadStyle() async {
     try {
       final style = await StyleReader(
-        uri: 'http://10.184.26.244:8080/styles/aiims/style.json',
+        uri: 'http://10.194.22.156:8080/styles/aiims/style.json',
         logger: Logger.console(),
       ).read();
       setState(() {
@@ -1211,39 +1247,39 @@ class _VectorTileMapState extends State<VectorTileMap> {
   TileProviders _getTileProviders() {
     return TileProviders({
       'combined_with_layers': NetworkVectorTileProvider(
-        urlTemplate: 'http://10.184.26.244:8080/data/combined_with_layers/{z}/{x}/{y}.pbf',
+        urlTemplate: 'http://10.194.22.156:8080/data/combined_with_layers/{z}/{x}/{y}.pbf',
         maximumZoom: 21,
       ),
       'floor_-1': NetworkVectorTileProvider(
-        urlTemplate: 'http://10.184.26.244:8080/data/floor_-1/{z}/{x}/{y}.pbf',
+        urlTemplate: 'http://10.194.22.156:8080/data/floor_-1/{z}/{x}/{y}.pbf',
         maximumZoom: 21,
       ),
       'floor_0': NetworkVectorTileProvider(
-        urlTemplate: 'http://10.184.26.244:8080/data/floor_0/{z}/{x}/{y}.pbf',
+        urlTemplate: 'http://10.194.22.156:8080/data/floor_0/{z}/{x}/{y}.pbf',
         maximumZoom: 21,
       ),
       'floor_1': NetworkVectorTileProvider(
-        urlTemplate: 'http://10.184.26.244:8080/data/floor_1/{z}/{x}/{y}.pbf',
+        urlTemplate: 'http://10.194.22.156:8080/data/floor_1/{z}/{x}/{y}.pbf',
         maximumZoom: 21,
       ),
       'floor_2': NetworkVectorTileProvider(
-        urlTemplate: 'http://10.184.26.244:8080/data/floor_2/{z}/{x}/{y}.pbf',
+        urlTemplate: 'http://10.194.22.156:8080/data/floor_2/{z}/{x}/{y}.pbf',
         maximumZoom: 21,
       ),
       'floor_3': NetworkVectorTileProvider(
-        urlTemplate: 'http://10.184.26.244:8080/data/floor_3/{z}/{x}/{y}.pbf',
+        urlTemplate: 'http://10.194.22.156:8080/data/floor_3/{z}/{x}/{y}.pbf',
         maximumZoom: 21,
       ),
       'floor_4': NetworkVectorTileProvider(
-        urlTemplate: 'http://10.184.26.244:8080/data/floor_4/{z}/{x}/{y}.pbf',
+        urlTemplate: 'http://10.194.22.156:8080/data/floor_4/{z}/{x}/{y}.pbf',
         maximumZoom: 21,
       ),
       'floor_5': NetworkVectorTileProvider(
-        urlTemplate: 'http://10.184.26.244:8080/data/floor_5/{z}/{x}/{y}.pbf',
+        urlTemplate: 'http://10.194.22.156:8080/data/floor_5/{z}/{x}/{y}.pbf',
         maximumZoom: 21,
       ),
       'floor_6': NetworkVectorTileProvider(
-        urlTemplate: 'http://10.184.26.244:8080/data/floor_6/{z}/{x}/{y}.pbf',
+        urlTemplate: 'http://10.194.22.156:8080/data/floor_6/{z}/{x}/{y}.pbf',
         maximumZoom: 21,
       ),
     });
@@ -1308,21 +1344,195 @@ class _VectorTileMapState extends State<VectorTileMap> {
     return closestNode;
   }
 
+  bool _isPathValid(List<String> path) {
+    for (int i = 0; i < path.length - 1; i++) {
+      final node = path[i];
+      final nextNode = path[i + 1];
+      if (!_graphEdges.containsKey(node) || !_graphEdges[node]!.contains(nextNode)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   void _calculatePathWithStops() {
     if (_sourceMarker == null || _destinationMarker == null) return;
-    final allPoints = [_sourceMarker!, ..._stopMarkers, _destinationMarker!];
+
+    if (_stopMarkers.isEmpty) {
+      // Direct path from source to destination
+      final startNode = _findClosestGraphNode(_sourceMarker!.point);
+      final endNode = _findClosestGraphNode(_destinationMarker!.point);
+      if (startNode == null || endNode == null) {
+        _clearPathResults();
+        _showNoPathDialog();
+        return;
+      }
+
+      final path = _findShortestPath(startNode, endNode);
+      if (path == null || path.isEmpty || !_isPathValid(path)) {
+        _clearPathResults();
+        _showNoPathDialog();
+        return;
+      }
+
+      _updatePathResults(path);
+      return;
+    }
+
+    // Find optimal order for visiting all stops
+    final optimalOrder = _findOptimalStopOrder();
+    final allPointsInOrder = [_sourceMarker!, ...optimalOrder, _destinationMarker!];
+
     List<String> fullPath = [];
-    for (int i = 0; i < allPoints.length - 1; i++) {
-      final startNode = _findClosestGraphNode(allPoints[i].point);
-      final endNode = _findClosestGraphNode(allPoints[i + 1].point);
-      if (startNode == null || endNode == null) continue;
+    double totalDistance = 0.0;
+
+    for (int i = 0; i < allPointsInOrder.length - 1; i++) {
+      final startNode = _findClosestGraphNode(allPointsInOrder[i].point);
+      final endNode = _findClosestGraphNode(allPointsInOrder[i + 1].point);
+      if (startNode == null || endNode == null) {
+        _clearPathResults();
+        _showNoPathDialog();
+        return;
+      }
+
       final segment = _findShortestPath(startNode, endNode);
-      if (segment == null || segment.isEmpty) continue;
-      if (fullPath.isNotEmpty) segment.removeAt(0);
+      if (segment == null || segment.isEmpty || !_isPathValid(segment)) {
+        _clearPathResults();
+        _showNoPathDialog();
+        return;
+      }
+
+      // Remove duplicate node if not the first segment
+      if (fullPath.isNotEmpty && segment.isNotEmpty) {
+        segment.removeAt(0);
+      }
       fullPath.addAll(segment);
     }
+
+    _updatePathResults(fullPath);
+  }
+
+  List<_MarkerData> _findOptimalStopOrder() {
+    if (_stopMarkers.length <= 1) return List.from(_stopMarkers);
+
+    // For small number of stops (≤ 8), use brute force for optimal solution
+    if (_stopMarkers.length <= 8) {
+      return _findOptimalOrderBruteForce();
+    }
+
+    // For larger sets, use nearest neighbor heuristic
+    return _findOptimalOrderNearestNeighbor();
+  }
+
+  List<_MarkerData> _findOptimalOrderBruteForce() {
+    final stops = List<_MarkerData>.from(_stopMarkers);
+    final allPermutations = _generatePermutations(stops);
+
+    double shortestDistance = double.infinity;
+    List<_MarkerData> bestOrder = stops;
+
+    for (final permutation in allPermutations) {
+      final totalDistance = _calculateTotalPathDistance([_sourceMarker!, ...permutation, _destinationMarker!]);
+      if (totalDistance < shortestDistance) {
+        shortestDistance = totalDistance;
+        bestOrder = permutation;
+      }
+    }
+
+    return bestOrder;
+  }
+
+  List<_MarkerData> _findOptimalOrderNearestNeighbor() {
+    final unvisited = Set<_MarkerData>.from(_stopMarkers);
+    final orderedStops = <_MarkerData>[];
+    _MarkerData currentLocation = _sourceMarker!;
+
+    while (unvisited.isNotEmpty) {
+      _MarkerData? nearest;
+      double shortestDistance = double.infinity;
+
+      for (final stop in unvisited) {
+        final distance = _calculateDirectDistance(currentLocation.point, stop.point);
+        if (distance < shortestDistance) {
+          shortestDistance = distance;
+          nearest = stop;
+        }
+      }
+
+      if (nearest != null) {
+        orderedStops.add(nearest);
+        unvisited.remove(nearest);
+        currentLocation = nearest;
+      }
+    }
+
+    return orderedStops;
+  }
+
+// Generate all permutations of a list
+  List<List<_MarkerData>> _generatePermutations(List<_MarkerData> items) {
+    if (items.length <= 1) return [items];
+
+    final result = <List<_MarkerData>>[];
+
+    for (int i = 0; i < items.length; i++) {
+      final current = items[i];
+      final remaining = [...items.sublist(0, i), ...items.sublist(i + 1)];
+      final perms = _generatePermutations(remaining);
+
+      for (final perm in perms) {
+        result.add([current, ...perm]);
+      }
+    }
+
+    return result;
+  }
+
+// Calculate total distance for a complete path including all waypoints
+  double _calculateTotalPathDistance(List<_MarkerData> waypoints) {
+    double totalDistance = 0.0;
+
+    for (int i = 0; i < waypoints.length - 1; i++) {
+      final startNode = _findClosestGraphNode(waypoints[i].point);
+      final endNode = _findClosestGraphNode(waypoints[i + 1].point);
+
+      if (startNode != null && endNode != null) {
+        final path = _findShortestPath(startNode, endNode);
+        if (path != null && path.isNotEmpty) {
+          totalDistance += _calculatePathDistance(path);
+        }
+      }
+    }
+
+    return totalDistance;
+  }
+
+// Calculate distance for a path of node keys
+  double _calculatePathDistance(List<String> pathNodes) {
+    double distance = 0.0;
+
+    for (int i = 0; i < pathNodes.length - 1; i++) {
+      final point1 = _nodeKeyToLatLng(pathNodes[i]);
+      final point2 = _nodeKeyToLatLng(pathNodes[i + 1]);
+
+      if (point1 != null && point2 != null) {
+        distance += _calculateDistance(point1, point2);
+      }
+    }
+
+    return distance;
+  }
+
+// Direct distance calculation (as the crow flies)
+  double _calculateDirectDistance(LatLng point1, LatLng point2) {
+    return _calculateDistance(point1, point2);
+  }
+
+// Helper method to update path results
+  void _updatePathResults(List<String> fullPath) {
     List<LatLng> pathPoints = [];
     double totalDistance = 0.0;
+
     for (int i = 0; i < fullPath.length; i++) {
       final point = _nodeKeyToLatLng(fullPath[i]);
       if (point != null) {
@@ -1332,19 +1542,109 @@ class _VectorTileMapState extends State<VectorTileMap> {
         }
       }
     }
+
     final estimatedTimeSeconds = totalDistance / 1.4;
+
     setState(() {
       _shortestPath = pathPoints;
       _shortestPathNodeKeys = fullPath;
       _shortestDistance = totalDistance;
       _estimatedTime = estimatedTimeSeconds;
     });
+
     _countLandmarksOnPath();
+
+    final stopCount = _stopMarkers.length;
+    final stopText = stopCount > 0 ? ' via $stopCount stop${stopCount > 1 ? 's' : ''}' : '';
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Path found: ${totalDistance.toStringAsFixed(1)} m (${_formatTime(estimatedTimeSeconds)}) - $_landmarksOnPath landmarks'),
+        content: Text(
+            'Optimized path found$stopText: ${totalDistance.toStringAsFixed(1)} m (${_formatTime(estimatedTimeSeconds)}) - $_landmarksOnPath landmarks'
+        ),
         duration: const Duration(seconds: 4),
       ),
+    );
+  }
+
+  void _showStopOrderDialog() {
+    if (_stopMarkers.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No stops added to show order')),
+      );
+      return;
+    }
+
+    final optimalOrder = _stopMarkers.length <= 8
+        ? _findOptimalOrderBruteForce()
+        : _findOptimalOrderNearestNeighbor();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Optimized Stop Order (${_stopMarkers.length} stops)'),
+          content: SizedBox(
+            width: double.maxFinite,
+            height: 300,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _stopMarkers.length <= 8
+                      ? 'Using optimal solution (exact)'
+                      : 'Using nearest neighbor heuristic (approximation)',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: optimalOrder.length + 2, // +2 for source and destination
+                    itemBuilder: (context, index) {
+                      IconData icon;
+                      String title;
+                      Color color;
+
+                      if (index == 0) {
+                        icon = Icons.play_arrow;
+                        title = 'Source: ${_sourceMarker?.properties['name'] ?? 'Unnamed'}';
+                        color = Colors.green;
+                      } else if (index == optimalOrder.length + 1) {
+                        icon = Icons.stop;
+                        title = 'Destination: ${_destinationMarker?.properties['name'] ?? 'Unnamed'}';
+                        color = Colors.blue;
+                      } else {
+                        icon = Icons.radio_button_checked;
+                        title = 'Stop ${index}: ${optimalOrder[index - 1].properties['name'] ?? 'Unnamed'}';
+                        color = Colors.purple;
+                      }
+
+                      return ListTile(
+                        leading: Icon(icon, color: color),
+                        title: Text(
+                          title,
+                          style: TextStyle(color: color, fontWeight: FontWeight.w500),
+                        ),
+                        dense: true,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -1798,6 +2098,8 @@ class _VectorTileMapState extends State<VectorTileMap> {
     );
   }
 
+  // Replace your existing _buildControlPanel method with this updated version
+
   Widget _buildControlPanel() {
     return Container(
       margin: const EdgeInsets.all(16),
@@ -1825,45 +2127,47 @@ class _VectorTileMapState extends State<VectorTileMap> {
             ),
           ),
           const SizedBox(height: 8),
+
+          // First row of buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () => _showSelectionOptionsDialog(isSource: true),
-                  icon: const Icon(Icons.play_arrow, color: Colors.white),
-                  label: const Text('Source', style: TextStyle(color: Colors.white)),
+                  icon: const Icon(Icons.play_arrow, color: Colors.white, size: 16),
+                  label: const Text('Source', style: TextStyle(color: Colors.white, fontSize: 12)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 4),
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () => _showSelectionOptionsDialog(isSource: false),
-                  icon: const Icon(Icons.stop, color: Colors.white),
-                  label: const Text('Dest', style: TextStyle(color: Colors.white)),
+                  icon: const Icon(Icons.stop, color: Colors.white, size: 16),
+                  label: const Text('Dest', style: TextStyle(color: Colors.white, fontSize: 12)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 4),
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () => _showSelectionOptionsDialog(isSource: null),
-                  icon: const Icon(Icons.add_location_alt, color: Colors.white),
-                  label: const Text('Add Stop', style: TextStyle(color: Colors.white)),
+                  icon: const Icon(Icons.add_location_alt, color: Colors.white, size: 16),
+                  label: const Text('Add Stop', style: TextStyle(color: Colors.white, fontSize: 12)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.purple,
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 4),
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
@@ -1880,8 +2184,8 @@ class _VectorTileMapState extends State<VectorTileMap> {
                       _selectionMode = SelectionMode.normal;
                     });
                   },
-                  icon: const Icon(Icons.clear, color: Colors.white),
-                  label: const Text('Clear', style: TextStyle(color: Colors.white)),
+                  icon: const Icon(Icons.clear, color: Colors.white, size: 16),
+                  label: const Text('Clear', style: TextStyle(color: Colors.white, fontSize: 12)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -1890,51 +2194,70 @@ class _VectorTileMapState extends State<VectorTileMap> {
               ),
             ],
           ),
+
+          // Second row of buttons (if there are stops)
+          if (_stopMarkers.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: _showStopOrderDialog,
+                    icon: const Icon(Icons.route, color: Colors.white, size: 16),
+                    label: const Text('Stop Order', style: TextStyle(color: Colors.white, fontSize: 12)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                if (_landmarksOnPath > 0)
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _showLandmarksDialog,
+                      icon: const Icon(Icons.place, color: Colors.white, size: 16),
+                      label: Text('Landmarks ($_landmarksOnPath)', style: const TextStyle(color: Colors.white, fontSize: 12)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+
+          // Status information
           if (_sourceMarker != null || _destinationMarker != null || _stopMarkers.isNotEmpty) ...[
             const SizedBox(height: 8),
             if (_sourceMarker != null)
               Text(
                 'Source: ${_sourceMarker!.properties['name'] ?? 'Unnamed'}',
-                style: const TextStyle(color: Colors.green, fontWeight: FontWeight.w500),
+                style: const TextStyle(color: Colors.green, fontWeight: FontWeight.w500, fontSize: 12),
               ),
             if (_stopMarkers.isNotEmpty)
-              ..._stopMarkers.map((stop) => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Stop: ${stop.properties['name'] ?? 'Unnamed'}',
-                    style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.w500),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.remove_circle, color: Colors.red, size: 20),
-                    tooltip: 'Remove Stop',
-                    onPressed: () {
-                      setState(() {
-                        _stopMarkers.remove(stop);
-                        if (_sourceMarker != null && _destinationMarker != null) {
-                          _calculatePathWithStops();
-                        }
-                      });
-                    },
-                  ),
-                ],
-              )),
+              Text(
+                'Stops: ${_stopMarkers.length} location${_stopMarkers.length > 1 ? 's' : ''}',
+                style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.w500, fontSize: 12),
+              ),
             if (_destinationMarker != null)
               Text(
                 'Destination: ${_destinationMarker!.properties['name'] ?? 'Unnamed'}',
-                style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
+                style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 12),
               ),
             if (_shortestDistance != null)
               Text(
                 'Distance: ${_shortestDistance!.toStringAsFixed(1)} m',
-                style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+                style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 12),
               ),
             if (_estimatedTime != null)
               Text(
                 'Estimated Time: ${_formatTime(_estimatedTime!)}',
-                style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
+                style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold, fontSize: 12),
               ),
-            if (_landmarksOnPath > 0) ...[
+            if (_landmarksOnPath > 0 && _stopMarkers.isEmpty)
               GestureDetector(
                 onTap: _showLandmarksDialog,
                 child: Text(
@@ -1942,11 +2265,61 @@ class _VectorTileMapState extends State<VectorTileMap> {
                   style: const TextStyle(
                     color: Colors.teal,
                     fontWeight: FontWeight.bold,
+                    fontSize: 12,
                     decoration: TextDecoration.underline,
                   ),
                 ),
               ),
-            ],
+          ],
+
+          // Individual stop management
+          if (_stopMarkers.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Container(
+              constraints: const BoxConstraints(maxHeight: 100),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: _stopMarkers.length,
+                itemBuilder: (context, index) {
+                  final stop = _stopMarkers[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 1),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Stop ${index + 1}: ${stop.properties['name'] ?? 'Unnamed'}',
+                            style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.w400, fontSize: 11),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.remove_circle, color: Colors.red, size: 18),
+                          tooltip: 'Remove Stop',
+                          constraints: const BoxConstraints(),
+                          padding: const EdgeInsets.all(4),
+                          onPressed: () {
+                            setState(() {
+                              _stopMarkers.remove(stop);
+                              if (_sourceMarker != null && _destinationMarker != null) {
+                                _calculatePathWithStops();
+                              } else {
+                                _shortestPath.clear();
+                                _shortestDistance = null;
+                                _estimatedTime = null;
+                                _landmarksOnPath = 0;
+                                _pathLandmarks = [];
+                              }
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ],
       ),

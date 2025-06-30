@@ -1,4 +1,4 @@
-name: mapbox_project
+name: zoo_project
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -34,8 +34,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  mapbox_maps_flutter: ^2.8.0
-  flutter_dotenv: ^5.2.1
+  mapbox_maps_flutter: ^2.9.0
   geolocator: ^14.0.1
   http: ^1.4.0
 
@@ -62,20 +61,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - .env
-    - assets/combined_with_layers.geojson
-    - assets/floor_-1.geojson
-    - assets/floor_0.geojson
-    - assets/floor_1.geojson
-    - assets/floor_2.geojson
-    - assets/floor_3.geojson
-    - assets/floor_4.geojson
-    - assets/floor_5.geojson
-    - assets/floor_6.geojson
-    - assets/custom-marker.png
-    - assets/tree.png
-
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
