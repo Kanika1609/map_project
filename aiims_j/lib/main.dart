@@ -1355,6 +1355,7 @@ class _VectorTileMapState extends State<VectorTileMap> {
     return true;
   }
 
+  ///here
   void _calculatePathWithStops() {
     if (_sourceMarker == null || _destinationMarker == null) return;
 

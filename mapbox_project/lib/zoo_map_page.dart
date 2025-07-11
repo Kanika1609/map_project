@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'dart:convert' show json;
+import 'dart:typed_data';
 
 class ZooMapPage extends StatefulWidget {
   const ZooMapPage({super.key});
@@ -42,10 +44,10 @@ class _ZooMapPageState extends State<ZooMapPage> {
             cameraOptions: CameraOptions(
               center: Point(coordinates: Position(77.248, 28.607)),
               zoom: 17.0,
-              pitch: _is3DEffectApplied ? 45.0 : 0.0, // 3D pitch for better effect
+              pitch: _is3DEffectApplied ? 45.0 : 0.0,
             ),
-            styleUri: 'http://192.168.221.134:8080/styles/zoo/style.json',
-            textureView: true, // Better for 3D effects
+            styleUri: 'http://10.206.234.134:8080/styles/zoo/style.json',
+            textureView: true,
             onMapCreated: _onMapCreated,
             onStyleLoadedListener: _onStyleLoaded,
           ),
@@ -81,6 +83,11 @@ class _ZooMapPageState extends State<ZooMapPage> {
                       onPressed: _addWaterAnimation,
                       child: const Text('Animate Water'),
                     ),
+                    const SizedBox(height: 8),
+                    ElevatedButton(
+                      onPressed: _addGrassPatternEffect,
+                      child: const Text('Add Grass Pattern'),
+                    ),
                   ],
                 ),
               ),
@@ -103,9 +110,12 @@ class _ZooMapPageState extends State<ZooMapPage> {
 
     debugPrint('Style loaded');
 
-    // Automatically add 3D effects after style loads
-    Future.delayed(const Duration(milliseconds: 500), () {
+    // Load custom images first, then add effects and model
+    Future.delayed(const Duration(milliseconds: 500), () async {
+      await _addCustomImages();
       _add3DWaterEffect();
+      _addGrassPatternEffect();
+      await _addTigerModel(); // 👈 this is the new line you add
     });
   }
 
@@ -122,20 +132,157 @@ class _ZooMapPageState extends State<ZooMapPage> {
     ));
   }
 
+  Future<void> _addCustomImages() async {
+    if (_mapboxMap == null) return;
+    try {
+      // Load grass pattern image
+      final ByteData grassData = await rootBundle.load('assets/grass_pattern.png');
+      final Uint8List grassBytes = grassData.buffer.asUint8List();
+      await _mapboxMap!.style.addStyleImage(
+        'grass_pattern',
+        1.0,
+        MbxImage(width: 16, height: 16, data: grassBytes), // Adjust size as needed
+        false,
+        [],
+        [],
+        null,
+      );
+
+      // Load water pattern image
+      final ByteData waterData = await rootBundle.load('assets/water_pattern.png');
+      final Uint8List waterBytes = waterData.buffer.asUint8List();
+      await _mapboxMap!.style.addStyleImage(
+        'water_pattern',
+        1.0,
+        MbxImage(width: 16, height: 16, data: waterBytes), // Adjust size as needed
+        false,
+        [],
+        [],
+        null,
+      );
+
+      debugPrint('Custom images loaded successfully');
+    } catch (e) {
+      debugPrint('Error adding custom images: $e');
+    }
+  }
+
   void _add3DWaterEffect() async {
     if (_mapboxMap == null) return;
 
     try {
-      // Method 1: Add 3D extrusion to water bodies
+      // Method 1: Add water pattern fill layer
+      await _addWaterPatternFill();
+
+      // Method 2: Add 3D extrusion to water bodies
       await _addWater3DExtrusion();
 
-      // Method 2: Add water reflection effects
+      // Method 3: Add water reflection effects
       await _addWaterReflectionEffect();
 
       debugPrint("3D water effects added successfully!");
 
     } catch (e) {
       debugPrint("Error adding 3D water effects: $e");
+    }
+  }
+
+  Future<void> _addTigerModel() async {
+    if (_mapboxMap == null) return;
+
+    const modelId = "tiger-model-layer";
+    const sourceId = "tiger-model-source";
+
+    try {
+      // First, add the model source to the style
+      final modelSource = {
+        "type": "model",
+        "models": {
+          "tiger-model": {
+            "uri": "https://maps.iwayplus.in/uploads/70tX7mpAIk9a-Wed Jul 09 2025 07:31:32 GMT+0000 (Coordinated Universal Time)-Tiger.glb",
+            "position": [77.24657288531034, 28.605579652959833], // lon, lat
+            "orientation": [0, 0, 0], // heading, pitch, roll in degrees
+            "scale": [5.0, 5.0, 5.0], // Reduced scale for better visibility
+          }
+        }
+      };
+
+      await _mapboxMap!.style.addStyleSource(
+        sourceId,
+        json.encode(modelSource),
+      );
+
+      debugPrint("✅ Tiger model source added");
+
+      // Wait a moment for the source to be registered
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      // Then add the model layer
+      await _mapboxMap!.style.addStyleLayer(
+        json.encode({
+          "id": modelId,
+          "type": "model",
+          "source": sourceId,
+          "layout": {
+            "visibility": "visible"
+          },
+          "paint": {
+            "model-opacity": 1.0,
+            "model-color": "#ffffff",
+            "model-color-mix-intensity": 0.0
+          }
+        }),
+        null,
+      );
+
+      debugPrint("✅ Tiger 3D model added successfully!");
+    } catch (e) {
+      debugPrint("❌ Error adding tiger model: $e");
+    }
+  }
+
+  Future<void> _addWaterPatternFill() async {
+    try {
+      // Add a base fill layer with water pattern
+      var waterPatternLayer = {
+        "id": "water-pattern-fill",
+        "type": "fill",
+        "source": "zoo",
+        "source-layer": "zoo",
+        "filter": ["==", ["get", "type"], "Water"],
+        "paint": {
+          "fill-pattern": "water_pattern",
+          "fill-opacity": 0.9
+        }
+      };
+
+      await _mapboxMap?.style.addStyleLayer(
+        json.encode(waterPatternLayer),
+        null, // Add to the top initially
+      );
+      debugPrint('Water pattern layer added');
+
+      // Add a semi-transparent overlay for depth effect
+      var waterOverlayLayer = {
+        "id": "water-overlay",
+        "type": "fill",
+        "source": "zoo",
+        "source-layer": "zoo",
+        "filter": ["==", ["get", "type"], "Water"],
+        "paint": {
+          "fill-color": "#1e90ff",
+          "fill-opacity": 0.3
+        }
+      };
+
+      await _mapboxMap?.style.addStyleLayer(
+        json.encode(waterOverlayLayer),
+        LayerPosition(above: "water-pattern-fill"),
+      );
+      debugPrint('Water overlay layer added');
+
+    } catch (e) {
+      debugPrint("Error adding water pattern fill: $e");
     }
   }
 
@@ -150,8 +297,8 @@ class _ZooMapPageState extends State<ZooMapPage> {
         "filter": ["==", ["get", "type"], "Water"],
         "paint": {
           "fill-extrusion-color": "#1e90ff",
-          "fill-extrusion-height": 4, // Height of water "volume"
-          "fill-extrusion-base": 0, // Base level (must be positive)
+          "fill-extrusion-height": 4,
+          "fill-extrusion-base": 0,
           "fill-extrusion-opacity": 0.7,
           "fill-extrusion-vertical-gradient": true
         }
@@ -159,7 +306,7 @@ class _ZooMapPageState extends State<ZooMapPage> {
 
       await _mapboxMap?.style.addStyleLayer(
         json.encode(water3DLayer),
-        LayerPosition(below: "pond-labels"),
+        LayerPosition(above: "water-overlay"),
       );
 
       // Add a dedicated 3D outline layer
@@ -282,24 +429,6 @@ class _ZooMapPageState extends State<ZooMapPage> {
 
     try {
       // Animate the water ripple effect
-      var animatedRipple = {
-        "circle-radius": [
-          "interpolate",
-          ["linear"],
-          ["get", "animationPhase"], // You'd need to add this property to your data
-          0, 5,
-          1, 25
-        ],
-        "circle-opacity": [
-          "interpolate",
-          ["linear"],
-          ["get", "animationPhase"],
-          0, 0.8,
-          1, 0.1
-        ]
-      };
-
-      // Update the existing ripple layer
       await _mapboxMap?.style.setStyleLayerProperty(
         "ponds-ripple",
         "paint",
@@ -317,10 +446,87 @@ class _ZooMapPageState extends State<ZooMapPage> {
         }),
       );
 
+      // Animate the water pattern by shifting it slightly
+      await _mapboxMap?.style.setStyleLayerProperty(
+        "water-pattern-fill",
+        "paint",
+        json.encode({
+          "fill-pattern": "water_pattern",
+          "fill-opacity": 0.8,
+          "fill-translate": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            15, [1, 1],
+            18, [2, 2]
+          ],
+          "fill-translate-anchor": "map"
+        }),
+      );
+
       debugPrint("Water animation added!");
 
     } catch (e) {
       debugPrint("Error adding water animation: $e");
     }
   }
+
+  void _addGrassPatternEffect() async {
+    if (_mapboxMap == null) return;
+
+    try {
+      // Add grass pattern for green areas
+      var grassPatternLayer = {
+        "id": "grass-pattern-fill",
+        "type": "fill",
+        "source": "zoo",
+        "source-layer": "zoo",
+        "filter": [
+          "any",
+          ["==", ["get", "type"], "Green Area"],
+          ["==", ["get", "type"], "Field"]
+        ],
+        "paint": {
+          "fill-pattern": "grass_pattern",
+          "fill-opacity": 0.9
+        }
+      };
+
+      await _mapboxMap?.style.addStyleLayer(
+        json.encode(grassPatternLayer),
+        null, // Add to the top initially
+      );
+      debugPrint('Grass pattern layer added');
+
+      // Add a subtle green overlay for natural look
+      var grassOverlayLayer = {
+        "id": "grass-overlay",
+        "type": "fill",
+        "source": "zoo",
+        "source-layer": "zoo",
+        "filter": [
+          "any",
+          ["==", ["get", "type"], "Green Area"],
+          ["==", ["get", "type"], "Field"]
+        ],
+        "paint": {
+          "fill-color": "#228B22",
+          "fill-opacity": 0.2
+        }
+      };
+
+      await _mapboxMap?.style.addStyleLayer(
+        json.encode(grassOverlayLayer),
+        LayerPosition(above: "grass-pattern-fill"),
+      );
+      debugPrint('Grass overlay layer added');
+
+      debugPrint("Grass pattern effects added successfully!");
+
+    } catch (e) {
+
+      debugPrint("Error adding grass pattern effects: $e");
+    }
+  }
 }
+

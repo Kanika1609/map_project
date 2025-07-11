@@ -75,6 +75,9 @@ flutter:
     - assets/floor_6.geojson
     - assets/custom-marker.png
     - assets/tree.png
+    - assets/grass_pattern.png
+    - assets/water_pattern.png
+    - assets/Buggy.glb
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
