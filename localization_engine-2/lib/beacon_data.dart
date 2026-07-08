@@ -1,0 +1,131 @@
+final Map<String, List<MapEntry<DateTime, int>>> beaconData = {
+  'IW25090057': [
+    MapEntry(DateTime.parse('2026-02-13T17:33:59.393000'), -80),
+    MapEntry(DateTime.parse('2026-02-13T17:33:59.901000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:00.897000'), -84),
+    MapEntry(DateTime.parse('2026-02-13T17:34:01.894000'), -78),
+    MapEntry(DateTime.parse('2026-02-13T17:34:05.912000'), -80),
+    MapEntry(DateTime.parse('2026-02-13T17:34:07.409000'), -81),
+    MapEntry(DateTime.parse('2026-02-13T17:34:10.405000'), -78),
+    MapEntry(DateTime.parse('2026-02-13T17:34:10.908000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:14.405000'), -81),
+  ],
+  'IW26020534': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:00.010000'), -90),
+    MapEntry(DateTime.parse('2026-02-13T17:34:14.175000'), -84),
+  ],
+  'IW25090072': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:00.491000'), -91),
+    MapEntry(DateTime.parse('2026-02-13T17:34:07.560000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:10.085000'), -80),
+    MapEntry(DateTime.parse('2026-02-13T17:34:11.093000'), -80),
+    MapEntry(DateTime.parse('2026-02-13T17:34:15.111000'), -84),
+  ],
+  'IW26020535': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:00.629000'), -80),
+    MapEntry(DateTime.parse('2026-02-13T17:34:10.682000'), -79),
+    MapEntry(DateTime.parse('2026-02-13T17:34:13.700000'), -76),
+  ],
+  'IW25090070': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:01.262000'), -76),
+    MapEntry(DateTime.parse('2026-02-13T17:34:07.747000'), -83),
+    MapEntry(DateTime.parse('2026-02-13T17:34:09.241000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:11.746000'), -81),
+    MapEntry(DateTime.parse('2026-02-13T17:34:13.246000'), -79),
+    MapEntry(DateTime.parse('2026-02-13T17:34:13.752000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:14.748000'), -82),
+  ],
+  'IW25090086': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:01.304000'), -83),
+    MapEntry(DateTime.parse('2026-02-13T17:34:03.301000'), -78),
+    MapEntry(DateTime.parse('2026-02-13T17:34:04.294000'), -80),
+    MapEntry(DateTime.parse('2026-02-13T17:34:04.789000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:05.797000'), -80),
+    MapEntry(DateTime.parse('2026-02-13T17:34:06.290000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:06.787000'), -78),
+    MapEntry(DateTime.parse('2026-02-13T17:34:08.780000'), -86),
+    MapEntry(DateTime.parse('2026-02-13T17:34:09.282000'), -85),
+    MapEntry(DateTime.parse('2026-02-13T17:34:10.283000'), -83),
+    MapEntry(DateTime.parse('2026-02-13T17:34:11.282000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:11.777000'), -85),
+    MapEntry(DateTime.parse('2026-02-13T17:34:12.776000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:13.269000'), -82),
+  ],
+  'IW25090085': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:01.582000'), -80),
+    MapEntry(DateTime.parse('2026-02-13T17:34:04.077000'), -85),
+    MapEntry(DateTime.parse('2026-02-13T17:34:05.507000'), -89),
+    MapEntry(DateTime.parse('2026-02-13T17:34:07.996000'), -89),
+    MapEntry(DateTime.parse('2026-02-13T17:34:11.949000'), -83),
+  ],
+  'IW26020532': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:02.551000'), -94),
+    MapEntry(DateTime.parse('2026-02-13T17:34:07.586000'), -91),
+  ],
+  'IW25090053': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:02.765000'), -96),
+  ],
+  'IW25090132': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:02.898000'), -96),
+    MapEntry(DateTime.parse('2026-02-13T17:34:13.839000'), -90),
+  ],
+  'IW25090068': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:03.185000'), -91),
+    MapEntry(DateTime.parse('2026-02-13T17:34:04.693000'), -94),
+    MapEntry(DateTime.parse('2026-02-13T17:34:07.715000'), -91),
+    MapEntry(DateTime.parse('2026-02-13T17:34:08.723000'), -89),
+  ],
+  'IW25090056': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:03.376000'), -83),
+    MapEntry(DateTime.parse('2026-02-13T17:34:04.372000'), -84),
+    MapEntry(DateTime.parse('2026-02-13T17:34:09.383000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:10.892000'), -87),
+    MapEntry(DateTime.parse('2026-02-13T17:34:12.898000'), -82),
+    MapEntry(DateTime.parse('2026-02-13T17:34:14.908000'), -84),
+  ],
+  'IW26020530': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:03.833000'), -95),
+  ],
+  'IW25090141': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:04.302000'), -88),
+    MapEntry(DateTime.parse('2026-02-13T17:34:04.797000'), -87),
+    MapEntry(DateTime.parse('2026-02-13T17:34:05.802000'), -84),
+    MapEntry(DateTime.parse('2026-02-13T17:34:06.294000'), -85),
+    MapEntry(DateTime.parse('2026-02-13T17:34:06.795000'), -84),
+    MapEntry(DateTime.parse('2026-02-13T17:34:07.799000'), -79),
+    MapEntry(DateTime.parse('2026-02-13T17:34:13.284000'), -82),
+  ],
+  'IW26020541': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:04.638000'), -85),
+    MapEntry(DateTime.parse('2026-02-13T17:34:06.652000'), -89),
+  ],
+  'IW25090078': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:04.841000'), -83),
+    MapEntry(DateTime.parse('2026-02-13T17:34:09.893000'), -85),
+    MapEntry(DateTime.parse('2026-02-13T17:34:10.402000'), -84),
+  ],
+  'IW25090055': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:05.898000'), -91),
+    MapEntry(DateTime.parse('2026-02-13T17:34:08.426000'), -88),
+  ],
+  'IW25090081': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:05.906000'), -91),
+  ],
+  'IW25090142': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:06.989000'), -96),
+  ],
+  'IW25090096': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:07.436000'), -91),
+    MapEntry(DateTime.parse('2026-02-13T17:34:10.995000'), -91),
+    MapEntry(DateTime.parse('2026-02-13T17:34:12.533000'), -97),
+  ],
+  'IW26020531': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:07.566000'), -99),
+  ],
+  'IW25090095': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:09.623000'), -95),
+  ],
+  'IW26020537': [
+    MapEntry(DateTime.parse('2026-02-13T17:34:11.472000'), -92),
+  ],
+};

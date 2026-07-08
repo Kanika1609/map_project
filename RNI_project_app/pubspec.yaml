@@ -1,0 +1,48 @@
+name: rni_project_app
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Your existing packages
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  csv: ^6.0.0
+  cupertino_icons: ^1.0.8
+
+  # localization_engine (the zip your founder shared)
+  localization_engine:
+    path: ../localization_engine-main
+
+  # Required by localization_engine
+  adapter_manager:
+    git:
+      url: https://github.com/iisthehimanshu/adaptermanager
+      ref: main
+  socket_io_client: any
+  device_info_plus: ^10.1.2
+  android_id: ^0.4.0
+  shared_preferences: ^2.2.2
+  permission_handler: ^11.3.1
+  http: any
+  flutter_compass: any
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  assets:
+    - assets/maps/converted_geojson.geojson
+    - assets/maps/rgci_geojson.geojson
+  uses-material-design: true
